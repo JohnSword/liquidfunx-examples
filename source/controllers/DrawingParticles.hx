@@ -71,8 +71,7 @@ class DrawingParticles extends TestbedTest {
   }
 
   override public function keyPressed(keyCode : Int) : Void {
-    trace(keyCode);
-    // m_drawing = keyCode != 'x';
+    m_drawing = keyCode != 88;
     m_particleFlags = 0;
     m_groupFlags = 0;
     color.set(127, 127, 127, 50);

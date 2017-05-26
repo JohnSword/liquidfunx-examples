@@ -33,7 +33,7 @@ class Main extends Sprite {
 		controller.updateExtents(960 / 2, 640 / 2);
 		
 		// the array of tests to load is in the TestbedModel class
-		controller.playTest(10);
+		controller.playTest(22);
 		// controller.playTest(model.getTestsSize() - 1);
 		controller.start();
 	}
