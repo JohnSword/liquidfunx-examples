@@ -110,7 +110,9 @@ private function addListeners() : Void {
 public function testChanged(TestClass : Dynamic, index : Int) : Void {
     this.nextTest = Type.createInstance(TestClass, []);
     var draw : HxDebugDraw = cast this.model.getDebugDraw();
-    draw.m_drawScale = this.nextTest.camera.getScale();
+    if(draw!=null) {
+      draw.m_drawScale = this.nextTest.camera.getScale();
+    }
 }
 
 public function onKeyDown(e : KeyboardEvent) : Void {

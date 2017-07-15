@@ -18,8 +18,9 @@ class Main extends Sprite {
 	public static var WORLD_SCALE:Float = 1 / 30;
 	
 	public function new() {
+		//haxelib run openfl build ios -simulator -Dsource-header=hax
 		#if (debug && cpp)
-			new debugger.HaxeRemote(true, "localhost");
+			// new debugger.HaxeRemote(true, "localhost");
 		#end
 		super();
 

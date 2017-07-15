@@ -87,13 +87,14 @@ class HxDebugDraw extends DebugDraw {
 	override public function drawCircle2(center:Vec2, radius:Float, axis : Vec2, color:Color3f) : Void {
 		getWorldToScreenToOut(center, sp1);
 		m_sprite.graphics.lineStyle(m_lineThickness, color.color, m_alpha);
-		m_sprite.graphics.drawCircle(sp1.x, sp1.y, radius * m_drawScale);
 		if (axis != null) {
-			// var rot = MathUtils.atan2(axis.y, axis.x);
-			// m_sprite.graphics.moveTo(sp1.x, sp2.y);
-			// m_sprite.graphics.lineTo(radius * m_drawScale, 0);
+			axis.y *= -1; // invert vertical axis to get correct rotation
+			var avx = sp1.x + (axis.x * radius * m_drawScale);
+			var avy = sp1.y + (axis.y * radius * m_drawScale);
+			m_sprite.graphics.moveTo(sp1.x, sp1.y);
+			m_sprite.graphics.lineTo(avx, avy);
 		}
-		// m_sprite.graphics.drawCircle(center.x * m_drawScale, center.y * m_drawScale, radius * m_drawScale);
+		m_sprite.graphics.drawCircle(sp1.x, sp1.y, radius * m_drawScale);
 	}
 	
 	/**
@@ -180,17 +181,16 @@ class HxDebugDraw extends DebugDraw {
 	}
 
 	override public function drawParticlesWireframe(centers : Vector<Vec2>, radius : Float, colors : Vector<ParticleColor>, count : Int) : Void {
-		var color : Color3f;
+		var color : Color3f = new Color3f();
 		for(i in 0 ... count) {
 			var center : Vec2 = centers[i];
 			if(colors == null) {
 				color = pcolor;
 			} else {
-				var c : ParticleColor = colors[i];
-				color = new Color3f(c.a,c.b,c.g);
+				color.set(colors[i].r,colors[i].g,colors[i].b);
 			}
-			m_sprite.graphics.lineStyle(1, color.color, 1);
 			getWorldToScreenToOut(center, sp1);
+			m_sprite.graphics.lineStyle(1, color.color, 1);
 			m_sprite.graphics.drawCircle(sp1.x, sp1.y, radius * m_drawScale);
 		}
   	}

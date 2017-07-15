@@ -135,7 +135,10 @@ class TestbedTest implements ContactListener {
     pointCount = 0;
     stepCount = 0;
     bombSpawning = false;
-    model.getDebugDraw().setViewportTransform(camera.getTransform());
+    var draw = model.getDebugDraw();
+    if(draw != null) {
+      draw.setViewportTransform(camera.getTransform());
+    }
 
     world.setDestructionListener(destructionListener);
     world.setParticleDestructionListener(particleDestructionListener);
@@ -150,7 +153,10 @@ class TestbedTest implements ContactListener {
     flags += TestbedSettings.DrawCOMs ? DebugDraw.e_centerOfMassBit : 0;
     flags += TestbedSettings.DrawTree ? DebugDraw.e_dynamicTreeBit : 0;
     flags += TestbedSettings.DrawWireframe ? DebugDraw.e_wireframeDrawingBit : 0;
-    model.getDebugDraw().setFlags(flags);
+    var draw = model.getDebugDraw();
+    if(draw != null) {
+      draw.setFlags(flags);
+    }
 
     m_world.setAllowSleep(TestbedSettings.AllowSleep);
     m_world.setWarmStarting(TestbedSettings.WarmStarting);
@@ -322,8 +328,10 @@ class TestbedTest implements ContactListener {
 
     pointCount = 0;
     m_world.step(timeStep, TestbedSettings.VelocityIterations, TestbedSettings.PositionIterations);
-    debugDraw.clear();
-    m_world.drawDebugData();
+    if(debugDraw != null) {
+      debugDraw.clear();
+      m_world.drawDebugData();
+    }
 
     if (timeStep > 0) {
       ++stepCount;

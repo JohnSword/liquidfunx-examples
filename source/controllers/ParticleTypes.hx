@@ -53,7 +53,8 @@ class ParticleTypes extends TestbedTest {
     shape.set(vertices, 4);
     ground.createFixtureShape(shape, 0.0);
 
-    m_world.setParticleRadius(0.2);
+    // m_world.setParticleRadius(0.2);
+    m_world.setParticleRadius(0.3);
     var shape : PolygonShape = new PolygonShape();
     shape.setAsBox2(20, 10, new Vec2(0, 10), 0);
     var pd : ParticleGroupDef = new ParticleGroupDef();

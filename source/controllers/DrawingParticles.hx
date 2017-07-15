@@ -1,5 +1,10 @@
 package controllers;
 
+import box2d.dynamics.BodyType;
+import box2d.dynamics.BodyDef;
+import box2d.collision.shapes.CircleShape;
+import box2d.collision.shapes.EdgeShape;
+import box2d.dynamics.Body;
 import box2d.particle.ParticleGroupType;
 import box2d.particle.ParticleType;
 import haxe.ds.Vector;
@@ -64,6 +69,28 @@ class DrawingParticles extends TestbedTest {
     m_lastGroup = null;
     m_drawing = true;
     m_groupFlags = 0;
+
+    var e_count = 4;
+    var bodies : Vector<Body> = new Vector<Body>(e_count);
+    var bd : BodyDef = new BodyDef();
+    var ground : Body = getWorld().createBody(bd);
+
+    var shape : EdgeShape = new EdgeShape();
+    shape.set(new Vec2(-40.0, 0.0), new Vec2(40.0, 0.0));
+    ground.createFixtureShape(shape, 0.0);
+
+    var shape : CircleShape = new CircleShape();
+    shape.m_radius = 1.0;
+
+    for(i in 0 ... e_count) {
+      var bd : BodyDef = new BodyDef();
+      bd.type = BodyType.DYNAMIC;
+      bd.position.set(0.0, 4.0 + 3.0 * i);
+
+      bodies[i] = getWorld().createBody(bd);
+
+      bodies[i].createFixtureShape(shape, 1.0);
+    }
   }
 
   override public function step() : Void {
@@ -79,6 +106,9 @@ class DrawingParticles extends TestbedTest {
       case 69: //'e'
         m_particleFlags = ParticleType.b2_elasticParticle;
         m_groupFlags = ParticleGroupType.b2_solidParticleGroup;
+      case 77: //'m'
+        color.set(this.randomNumBetween(0, 255), this.randomNumBetween(0, 255), this.randomNumBetween(0, 255), 255);
+        m_particleFlags = ParticleType.b2_colorMixingParticle;
       case 80: //'p'
         m_particleFlags = ParticleType.b2_powderParticle;
       case 70: //'f'
@@ -141,5 +171,13 @@ override public function particleGroupDestroyed(group : ParticleGroup) : Void {
 override public function getTestName() : String {
     return "Drawing Particles";
   }
+
+public function randomNumBetween( low : Int, high : Int ) : Int {
+			var this_number : Int = high - low;
+			var ran_unrounded : Int = Std.int(Math.random() * this_number);
+			var ran_number : Int = Std.int(Math.round( ran_unrounded ));
+			ran_number += low;
+			return ran_number;
+		}
 }
 
